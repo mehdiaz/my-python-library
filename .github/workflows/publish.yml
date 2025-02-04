@@ -43,16 +43,15 @@ jobs:
           python -m build --wheel
           ls dist/
 
+
       - name: Create GitHub release
-        id: create-release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/my_python_library-*.whl
+          tag_name: v${{ github.run_number }}
+          name: Release v${{ github.run_number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.run_number }}
-          release_name: Release v${{ github.run_number }}
-          draft: false
-          prerelease: false
 
       - name: Upload wheel to release
         uses: actions/upload-release-asset@v1
